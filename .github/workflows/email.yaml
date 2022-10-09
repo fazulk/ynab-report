@@ -1,0 +1,49 @@
+name: Email Ynab Report
+
+# fill in your own custom defaults
+on: 
+  workflow_dispatch:
+    inputs:
+        sengridEmail:
+          description: Sengrid email to use
+          required: true
+          type: string
+          default: <sengrid email>
+        replyTo:
+          description: email to reply to
+          required: false
+          type: string
+          default: <email to reply to, optional>
+        sendTo:
+          description: Send To
+          required: true
+          default: <who the report goes to>
+          type: choice
+          options: 
+            - <another email perhaps>
+        title:
+          description: report title
+          required: false
+          type: string
+          default: 'Ynab Report'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+          node-version: '16'
+      - run: npm install --production
+      - name: Run script
+        run: npm run deploy
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          YNAB_TOKEN: ${{ secrets.YNAB_TOKEN }}
+          EMAIL: ${{ inputs.sendTo }}
+          EMAIL_REPLY_TO: ${{ inputs.replyTo }}
+          SENGRID_EMAIL: ${{ inputs.sengridEmail }}
+          REPORT_TITLE: ${{ inputs.title }}

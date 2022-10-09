@@ -1,0 +1,24 @@
+---
+import YnabReport from '../components/YnabReport.vue';
+---
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>YNAB Report</title>
+		<style is:inline>
+			.negative {
+				color: #B22222
+			}
+			.positive {
+				color: green
+			}
+		</style>
+	</head>
+	<body>
+		<YnabReport/>
+	</body>
+</html>
